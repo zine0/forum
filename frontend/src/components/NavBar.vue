@@ -1,29 +1,26 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar w/ text</a>
-            <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <a class="navbar-brand" href="#">Forum</a>
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page"
-                            href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    Navbar text with an inline element
-                </span>
+                <form class="d-flex search" role="search"> <input
+                        class="form-control me-2" type="search"
+                        placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success"
+                        type="submit">Search</button>
+                </form>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        zine
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">我的帖子</a></li>
+                        <li><a class="dropdown-item" href="#">用户空间</a></li>
+                        <li><a class="dropdown-item last-item" href="#">登出</a></li>
+                    </ul>
+                </li>
+
             </div>
         </div>
     </nav>
@@ -38,6 +35,23 @@ export default {
 }
 
 </script>
+<style scoped>
+.navbar-collapse {
+    display: flex;
+    justify-content: right;
+    position: relative;
+}
 
+.search {
+    margin-right: 50px;
+}
 
-<style scoped></style>
+.dropdown{
+    list-style-type: none;
+}
+
+.last-item {
+    border-top: 1px solid #DDDDDD; /* 默认所有 li 有下边框 */
+  padding-top: 8px;
+}
+</style>
