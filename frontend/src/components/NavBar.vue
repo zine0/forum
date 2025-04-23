@@ -141,6 +141,16 @@ export default {
     margin-top: 0.3rem;
 }
 
+.btn {
+    color: #3498db;
+    border-color: #3498db;
+}
+.btn:hover {
+    background-color: #3498db;
+    border-color: #3498db;
+    color:#fff;
+}
+
 /* 响应式调整 */
 @media (max-width: 992px) {
     .navbar-collapse {
