@@ -27,13 +27,9 @@
     </nav>
 </template>
 
-<script>
+<script setup>
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-
-export default {
-    name: "NavBar",
-}
 
 </script>
 <style scoped>
