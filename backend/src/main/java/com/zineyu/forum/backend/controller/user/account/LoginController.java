@@ -1,0 +1,25 @@
+package com.zineyu.forum.backend.controller.user.account;
+
+import com.zineyu.forum.backend.service.user.account.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+public class LoginController {
+
+    @Autowired
+    private LoginService loginService;
+
+    @PostMapping("/user/account/login")
+    public Map<String,String> login(@RequestBody Map<String,String> map) {
+
+        String username = map.get("username");
+        String password = map.get("password");
+
+        return loginService.login(username,password);
+    }
+}
