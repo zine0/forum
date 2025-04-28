@@ -34,40 +34,39 @@
         <!-- 标签 -->
         <div class="post-tags" v-if="post.tags && post.tags.length">
             <span class="tag" v-for="tag in post.tags" :key="tag">{{ tag
-                }}</span>
+            }}</span>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    name: 'PostPreview',
-    props: {
-        post: {
-            type: Object,
-            required: true,
-            validator: (value) => {
-                return (
-                    value.title &&
-                    value.author &&
-                    value.publishDate &&
-                    value.excerpt
-                )
-            }
-        }
-    },
-    methods: {
-        formatDate(date) {
-            // 这里可以使用 day.js 或 moment.js 等库进行更复杂的日期格式化
-            return new Date(date).toLocaleDateString()
-        },
-        navigateToPost() {
-            // 触发路由跳转或 emit 事件
-            this.$emit('post-click', this.post.id)
-            // 或者使用路由
-            // this.$router.push(`/posts/${this.post.id}`)
-        }
+<script setup>
+import { defineProps, defineEmits } from 'vue'
+const emit = defineEmits(['post-click'])
+const props = defineProps({
+  post: {
+    type: Object,
+    required: true,
+    validator: (value) => {
+      return (
+        typeof value.title === 'string' &&
+        typeof value.author === 'object' &&
+        value.author.name &&
+        value.author.avatar &&
+        value.publishDate &&
+        typeof value.excerpt === 'string'
+      )
     }
+  }
+})
+function formatDate(date) {
+    // 这里可以使用 day.js 或 moment.js 等库进行更复杂的日期格式化
+    return new Date(date).toLocaleDateString()
+}
+function navigateToPost() {
+    // 触发路由跳转或 emit 事件
+    emit('post-click', props.post.id)
+    // 或者使用路由
+    // this.$router.push(`/posts/${this.post.id}`)
 }
 </script>
 
