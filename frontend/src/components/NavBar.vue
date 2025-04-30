@@ -9,19 +9,27 @@
                     <button class="btn btn-outline-success"
                         type="submit">Search</button>
                 </form>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" v-if="userStore.user.is_login">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        zine
+                        {{ userStore.user.username }}
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">我的帖子</a></li>
                         <li><a class="dropdown-item" href="#">用户空间</a></li>
-                        <li><a class="dropdown-item last-item" href="#">登出</a>
+                        <li><a class="dropdown-item last-item" @click="userStore.logout" href="#">登出</a>
                         </li>
                     </ul>
                 </li>
-
+                <ul class="navbar-nav" v-else>
+                    <li class="nav-item">
+                        <router-link class="nav-link " :to="{'name':'login'}" role="button">Login</router-link>
+                    </li>
+                    <span class="nav-link">/</span>
+                    <li class="nav-item ">
+                        <router-link class="nav-link " :to="{'name':'register'}" role="button">Register</router-link>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -30,10 +38,12 @@
 <script setup>
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import { useUserStore } from "@/store/user";
+const userStore = useUserStore();
+
 
 </script>
 <style scoped>
-
 .container {
     width: 80vw;
 }
@@ -106,6 +116,11 @@ import "bootstrap/dist/js/bootstrap.min.js";
     color: #3498db !important;
 }
 
+li {
+
+    list-style-type: none;
+}
+
 .dropdown {
     list-style-type: none;
 }
@@ -141,10 +156,11 @@ import "bootstrap/dist/js/bootstrap.min.js";
     color: #3498db;
     border-color: #3498db;
 }
+
 .btn:hover {
     background-color: #3498db;
     border-color: #3498db;
-    color:#fff;
+    color: #fff;
 }
 
 /* 响应式调整 */
