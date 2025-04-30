@@ -1,15 +1,19 @@
 <template>
     <div class="create_post">
-        <button class="mi-add-button" aria-label="添加">
+        <button class="mi-add-button" aria-label="添加" @click="CreatePostHandler">
             <div class="plus"></div>
         </button>
     </div>
 </template>
 
-<script>
-export default {
-    name: 'CreatePost',
+<script setup>
+import router from '@/router';
+
+function CreatePostHandler()
+{
+    router.push({name:"createPost"})
 }
+
 </script>
 
 <style scoped>

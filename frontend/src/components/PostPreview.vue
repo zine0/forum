@@ -12,7 +12,7 @@
         </div>
 
         <!-- 内容摘要 -->
-        <p class="post-excerpt render-html" v-html="post.preview"></p>
+        <p class="post-excerpt render-html" v-html="parsedPreview"></p>
 
         <!-- 互动数据 -->
         <div class="post-stats">
@@ -31,8 +31,11 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
-const emit = defineEmits(['post-click'])
+import { defineProps, defineEmits,ref } from 'vue';
+import { marked } from 'marked';
+import hljs from 'highlight.js';
+
+const emit = defineEmits(['post-click']);
 const props = defineProps({
     post: {
         type: Object,
@@ -50,11 +53,32 @@ const props = defineProps({
     }
 })
 function navigateToPost() {
-    // 触发路由跳转或 emit 事件
     emit('post-click', props.post.id)
-    // 或者使用路由
-    // this.$router.push(`/posts/${this.post.id}`)
 }
+
+const initMarked = () => {
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        highlight: function (code, lang) {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+            return hljs.highlight(code, { language }).value
+        },
+        langPrefix: 'hljs language-',
+        pedantic: false,
+        gfm: true,
+        breaks: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        xhtml: false
+    })
+
+
+}
+initMarked();
+const parsedPreview = ref('');
+parsedPreview.value = marked.parse(props.post.preview || '')
+
 </script>
 
 <style scoped>
@@ -99,6 +123,30 @@ function navigateToPost() {
     /* 继承换行规则 */
 }
 
+.render-html {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.render-html :deep(p) {
+    margin-bottom: 1.5em;
+}
+
+.render-html :deep(img) {
+    max-width: 100%;
+    border-radius: 4px;
+}
+
+.render-html :deep(a) {
+    color: #4285f4;
+    text-decoration: none;
+}
+
+.render-html :deep(a:hover) {
+    text-decoration: underline;
+}
 .post-title {
     margin: 0 0 0.5rem;
     font-size: 1.5rem;
@@ -129,12 +177,16 @@ function navigateToPost() {
     margin: 0 0 1rem;
     color: #444;
     line-height: 1.6;
-    white-space: normal;      /* 默认值，允许换行 */
-  word-wrap: break-word;    /* 允许在单词内换行 */
-  overflow-wrap: break-word; /* 更标准的属性 */
-  
-  /* 中文换行优化 */
-  word-break: break-word;   /* 对中文更友好的换行 */
+    white-space: normal;
+    /* 默认值，允许换行 */
+    word-wrap: break-word;
+    /* 允许在单词内换行 */
+    overflow-wrap: break-word;
+    /* 更标准的属性 */
+
+    /* 中文换行优化 */
+    word-break: break-word;
+    /* 对中文更友好的换行 */
 }
 
 .post-stats {

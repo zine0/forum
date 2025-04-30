@@ -28,6 +28,25 @@ public class CreatePostServiceImpl implements CreatePostService {
         return postMapper.insert(post);
     }
 
+    private static String getFirstParagraph(String markdown) {
+        if (markdown == null || markdown.trim().isEmpty()) {
+            return "";
+        }
+
+        // 分割段落（两个以上换行符）
+        String[] paragraphs = markdown.split("\\n\\s*\\n");
+
+        // 找到第一个非空段落
+        String firstParagraph = "";
+        for (String para : paragraphs) {
+            if (!para.trim().isEmpty()) {
+                firstParagraph = para;
+                break;
+            }
+        }
+        return firstParagraph;
+    }
+
     @Override
     public Map<String, String> createPost(String title, String content) {
 
@@ -39,7 +58,7 @@ public class CreatePostServiceImpl implements CreatePostService {
         post.setTitle(title);
         post.setContent(content);
         post.setAuthor(user);
-        post.setPreview(content.substring(0, Math.min(content.length(),200)));
+        post.setPreview(getFirstParagraph(content));
 
 
         this.insert(post);
