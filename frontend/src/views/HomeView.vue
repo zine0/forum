@@ -1,6 +1,6 @@
 <template>
   <NavBar></NavBar>
-
+  <FeaturedPost></FeaturedPost>
   <PostPreview v-for="post in posts" :key="post.id" :post="post"
     @post-click="handlePostClick" />
 
@@ -29,6 +29,7 @@ import { ref, onMounted } from 'vue';
 import $ from "jquery"
 import { useUserStore } from "@/store/user";
 import router from '@/router';
+import FeaturedPost from '@/components/FeaturedPost.vue';
 
 const userStore = useUserStore();
 
