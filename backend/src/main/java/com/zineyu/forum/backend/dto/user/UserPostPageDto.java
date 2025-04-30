@@ -1,9 +1,7 @@
 package com.zineyu.forum.backend.dto.user;
 
 
-
 import com.zineyu.forum.backend.dto.post.UserPostPreviewDto;
-import com.zineyu.forum.backend.pojo.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

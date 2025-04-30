@@ -15,9 +15,9 @@ public class CreatePostController {
     CreatePostService createPostService;
 
     @PostMapping("/post/create")
-    public Map<String,String> createPost(@RequestBody Map<String,String> request) {
+    public Map<String, String> createPost(@RequestBody Map<String, String> request) {
         String title = request.get("title");
         String content = request.get("content");
-        return createPostService.createPost(title,content);
+        return createPostService.createPost(title, content);
     }
 }

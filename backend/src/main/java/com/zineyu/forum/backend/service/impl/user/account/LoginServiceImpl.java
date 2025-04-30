@@ -1,8 +1,8 @@
 package com.zineyu.forum.backend.service.impl.user.account;
 
 import com.zineyu.forum.backend.pojo.User;
-import com.zineyu.forum.backend.service.user.account.LoginService;
 import com.zineyu.forum.backend.service.impl.utils.UserDetailsImpl;
+import com.zineyu.forum.backend.service.user.account.LoginService;
 import com.zineyu.forum.backend.service.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,8 +34,8 @@ public class LoginServiceImpl implements LoginService {
 
 
         Map<String, String> map = new HashMap<>();
-        map.put("message","success");
-        map.put("token",jwt);
+        map.put("message", "success");
+        map.put("token", jwt);
 
         return map;
     }

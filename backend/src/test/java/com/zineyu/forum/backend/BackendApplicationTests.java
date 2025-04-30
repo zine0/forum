@@ -13,7 +13,7 @@ class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(passwordEncoder.encode("zineyu"));
+
 	}
 
 }

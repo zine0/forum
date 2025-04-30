@@ -16,7 +16,7 @@ public class UpdatePostController {
     UpdatePostService updatePostService;
 
     @PostMapping("/user/post/update")
-    public Map<String,String> updatePost(@RequestBody PostCreateDto postCreateDto) {
+    public Map<String, String> updatePost(@RequestBody PostCreateDto postCreateDto) {
         return updatePostService.updatePost(postCreateDto);
     }
 }

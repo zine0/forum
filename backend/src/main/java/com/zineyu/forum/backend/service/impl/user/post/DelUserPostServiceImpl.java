@@ -28,12 +28,12 @@ public class DelUserPostServiceImpl implements DelUserPostService {
         Post post = new Post();
         post = postMapper.selectById(id);
 
-        if(post == null) {
+        if (post == null) {
             map.put("mseeage", "no such post");
             return map;
         }
 
-        if(post.getAuthorId() != user.getId()) {
+        if (post.getAuthorId() != user.getId()) {
             map.put("message", "that not you post");
             return map;
         }

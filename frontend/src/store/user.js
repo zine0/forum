@@ -8,6 +8,7 @@ export const useUserStore = defineStore("user", () => {
         username: null,
         avatar: null,
         is_login: false,
+        permission:0,
         token: ""
     })
 
@@ -24,6 +25,7 @@ export const useUserStore = defineStore("user", () => {
                 if (ref.message === 'success') {
                     user.token = ref.token;
                     user.is_login = true;
+                    user.permission = ref.permission;
                     getInfo();
                     data.success();
                 } else {

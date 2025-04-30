@@ -23,10 +23,8 @@ public class UserMapperTest {
 
     @Test
     public void testSelect() {
-        System.out.println("=== Test Select ===");
+
         List<User> userList = userMapper.selectList(null);
-        for (User user : userList) {
-            System.out.println(user);
-        }
+
     }
 }

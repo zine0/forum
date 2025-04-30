@@ -1,11 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/AccountView/LoginView.vue'
-import RegisterView from '@/views/AccountView/RegisterView.vue'
-import PostView from '@/views/PostView/PostView.vue'
-import NotFound from '@/views/NotFound.vue'
-import CreateView from '@/views/PostView/CreateView.vue'
-import UserPostView from '@/views/UserView/UserPostView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '@/views/HomeView.vue';
+import LoginView from '@/views/AccountView/LoginView.vue';
+import RegisterView from '@/views/AccountView/RegisterView.vue';
+import PostView from '@/views/PostView/PostView.vue';
+import NotFound from '@/views/NotFound.vue';
+import CreateView from '@/views/PostView/CreatePostView.vue';
+import UserPostView from '@/views/UserView/UserPostView.vue';
+import UpdatePostView from '@/views/PostView/UpdatePostView.vue';
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
     path: "/user/post",
     name: "userPost",
     component:UserPostView
+  },
+  {
+    path: "/post/update",
+    name: "updatePost",
+    component:UpdatePostView
   },
   {
     path: '/:pathMatch(.*)*',

@@ -24,7 +24,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public Map<String, String> register(String username, String password, String confirmPassword, String email) {
 
-        Map<String,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
 
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
@@ -33,19 +33,19 @@ public class RegisterServiceImpl implements RegisterService {
             response.put("message", "用户名重复");
             return response;
         }
-        if( username == null || password == null || confirmPassword == null || email == null ) {
+        if (username == null || password == null || confirmPassword == null || email == null) {
             response.put("message", "缺少必要信息");
             return response;
         }
-        if(username.length() > 20){
+        if (username.length() > 20) {
             response.put("message", "用户名过长");
             return response;
         }
-        if(password.length() > 50){
+        if (password.length() > 50) {
             response.put("message", "密码过长");
             return response;
         }
-        if(!password.equals(confirmPassword)){
+        if (!password.equals(confirmPassword)) {
 
             response.put("message", "两次的密码不相同");
             return response;

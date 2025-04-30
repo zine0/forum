@@ -49,6 +49,7 @@ import hljs from 'highlight.js';
 import $ from "jquery";
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { useRouter } from "vue-router";
 
 // 只需要初始化一次 marked
 const initMarked = () => {
@@ -75,6 +76,7 @@ initMarked();
 const emit = defineEmits(['post-click', 'edit', 'delete']);
 const userStore = useUserStore();
 const showAction = ref(false);
+const router = useRouter();
 
 const props = defineProps({
     post: {
@@ -91,6 +93,7 @@ function navigateToPost() {
 }
 
 function handleEdit() {
+    router.push({ name: 'updatePost', query: { id: props.post.id } });
 }
 
 function handleDelete() {

@@ -19,15 +19,6 @@ public class CreatePostServiceImpl implements CreatePostService {
     @Autowired
     private PostMapper postMapper;
 
-    @Override
-    public int insert(Post post) {
-        if (post.getAuthor() == null) {
-            throw new IllegalArgumentException("Post author cannot be null");
-        }
-        post.setAuthorId(post.getAuthor().getId());
-        return postMapper.insert(post);
-    }
-
     private static String getFirstParagraph(String markdown) {
         if (markdown == null || markdown.trim().isEmpty()) {
             return "";
@@ -45,6 +36,15 @@ public class CreatePostServiceImpl implements CreatePostService {
             }
         }
         return firstParagraph;
+    }
+
+    @Override
+    public int insert(Post post) {
+        if (post.getAuthor() == null) {
+            throw new IllegalArgumentException("Post author cannot be null");
+        }
+        post.setAuthorId(post.getAuthor().getId());
+        return postMapper.insert(post);
     }
 
     @Override

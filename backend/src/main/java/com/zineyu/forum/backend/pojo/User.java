@@ -23,5 +23,5 @@ public class User {
     @TableField(exist = false)
     private List<Post> posts;
 
-    private int permission;
+    private Integer permission;
 }

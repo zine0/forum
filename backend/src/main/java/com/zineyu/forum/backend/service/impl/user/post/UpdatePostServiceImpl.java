@@ -29,21 +29,21 @@ public class UpdatePostServiceImpl implements UpdatePostService {
         Post post = new Post();
         post = postMapper.selectById(postCreateDto.getId());
 
-        if(post.getAuthorId() != user.getId()) {
+        if (post.getAuthorId() != user.getId()) {
             map.put("message", "that not you post");
             return map;
         }
 
-        if(post == null) {
-            map.put("message","no such post");
+        if (post == null) {
+            map.put("message", "no such post");
             return map;
         }
 
-        if(!(postCreateDto.getTitle() == null || postCreateDto.getTitle().isEmpty())) {
+        if (!(postCreateDto.getTitle() == null || postCreateDto.getTitle().isEmpty())) {
             post.setTitle(postCreateDto.getTitle());
         }
 
-        if(!(postCreateDto.getContent() == null || postCreateDto.getContent().isEmpty())) {
+        if (!(postCreateDto.getContent() == null || postCreateDto.getContent().isEmpty())) {
             post.setContent(postCreateDto.getContent());
         }
 
