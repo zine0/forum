@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PosPreviewtDto {
+public class PostPreviewDto {
     private int id;
     private String title;
     private String preview;
-    private long authorId;
+    private int authorId;
     private String authorName;
     private String authorAvatar;
 }

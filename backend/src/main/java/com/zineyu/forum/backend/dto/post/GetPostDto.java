@@ -11,6 +11,7 @@ public class GetPostDto {
     private int id;
     private String title;
     private String content;
+    private int authorId;
     private String authorName;
     private String authorAvatar;
 }

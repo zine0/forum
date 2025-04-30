@@ -1,7 +1,19 @@
 <template>
     <div class="post-preview" @click="navigateToPost">
-        <!-- 标题 -->
-        <h2 class="post-title">{{ post.title }}</h2>
+        <!-- 头部区域 -->
+        <div class="head">
+            <h2 class="post-title">{{ post.title }}</h2>
+            <div class="actions" v-if="showAction">
+                <button class="edit-btn btn btn-primary"
+                    @click.stop="handleEdit">
+                    修改
+                </button>
+                <button class="delete-btn btn btn-danger"
+                    @click.stop="handleDelete">
+                    删除
+                </button>
+            </div>
+        </div>
 
         <!-- 元信息 -->
         <div class="post-meta">
@@ -26,42 +38,25 @@
                 <i class="icon-view"></i> {{ post.views }}
             </span>
         </div>
-
     </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits,ref } from 'vue';
+import { defineProps, defineEmits, ref, onMounted } from 'vue';
+import { useUserStore } from '@/store/user';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
+import $ from "jquery";
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
-const emit = defineEmits(['post-click']);
-const props = defineProps({
-    post: {
-        type: Object,
-        required: true,
-        validator: (value) => {
-            return (
-                typeof value.title === 'string' &&
-                typeof value.author === 'object' &&
-                value.author.name &&
-                value.author.avatar &&
-                value.publishDate &&
-                typeof value.excerpt === 'string'
-            )
-        }
-    }
-})
-function navigateToPost() {
-    emit('post-click', props.post.id)
-}
-
+// 只需要初始化一次 marked
 const initMarked = () => {
     marked.setOptions({
         renderer: new marked.Renderer(),
         highlight: function (code, lang) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-            return hljs.highlight(code, { language }).value
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            return hljs.highlight(code, { language }).value;
         },
         langPrefix: 'hljs language-',
         pedantic: false,
@@ -71,17 +66,89 @@ const initMarked = () => {
         smartLists: true,
         smartypants: false,
         xhtml: false
-    })
+    });
+};
 
-
-}
+// 初始化 marked
 initMarked();
-const parsedPreview = ref('');
-parsedPreview.value = marked.parse(props.post.preview || '')
 
+const emit = defineEmits(['post-click', 'edit', 'delete']);
+const userStore = useUserStore();
+const showAction = ref(false);
+
+const props = defineProps({
+    post: {
+        type: Object,
+        required: true,
+    }
+});
+
+// 解析预览内容
+const parsedPreview = ref(marked.parse(props.post.preview || ''));
+
+function navigateToPost() {
+    emit('post-click', props.post.id);
+}
+
+function handleEdit() {
+}
+
+function handleDelete() {
+    $.ajax({
+        url: `http://localhost:3000/user/post?id=${props.post.id}`,
+        type: "delete",
+        headers: {
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        success(data) {
+            if (data.message === "success") {
+                toast.success("删除post成功");
+            } else {
+                toast.error("删除失败");
+            }
+        }, error() {
+            toast.error("删除失败");
+        }
+    })
+}
+
+onMounted(() => {
+    showAction.value = (props.post.authorId == userStore.user.id);
+});
 </script>
 
 <style scoped>
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.head {
+    position: relative;
+}
+
+.post-title {
+    display: inline;
+}
+
+.actions {
+    position: absolute;
+    display: inline-block;
+    right: 0px;
+}
+
+.edit-btn {
+    font-size: 12px;
+    margin: 0 3px;
+    padding: 5px 10px;
+}
+
+.delete-btn {
+    font-size: 12px;
+    margin: 0 3px;
+    padding: 5px 10px;
+}
+
 .post-preview {
     width: 60vw;
     padding: 1.5rem;
@@ -147,6 +214,7 @@ parsedPreview.value = marked.parse(props.post.preview || '')
 .render-html :deep(a:hover) {
     text-decoration: underline;
 }
+
 .post-title {
     margin: 0 0 0.5rem;
     font-size: 1.5rem;
@@ -157,6 +225,7 @@ parsedPreview.value = marked.parse(props.post.preview || '')
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
+    margin-top: 0.5rem;
     font-size: 0.9rem;
     color: #666;
 }

@@ -5,6 +5,7 @@ import RegisterView from '@/views/AccountView/RegisterView.vue'
 import PostView from '@/views/PostView/PostView.vue'
 import NotFound from '@/views/NotFound.vue'
 import CreateView from '@/views/PostView/CreateView.vue'
+import UserPostView from '@/views/UserView/UserPostView.vue'
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: "/post/create",
     name: "createPost",
     component:CreateView
+  },
+  {
+    path: "/user/post",
+    name: "userPost",
+    component:UserPostView
   },
   {
     path: '/:pathMatch(.*)*',

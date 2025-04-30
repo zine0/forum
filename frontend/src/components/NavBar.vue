@@ -1,7 +1,8 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">Forum</a>
+            <router-link class="navbar-brand"
+                :to="{ 'name': 'Home' }">Forum</router-link>
             <div class="collapse navbar-collapse" id="navbarText">
                 <form class="d-flex search" role="search"> <input
                         class="form-control me-2" type="search"
@@ -15,19 +16,26 @@
                         {{ userStore.user.username }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">我的帖子</a></li>
+                        <li><router-link class="dropdown-item"
+                                :to="{ 'name': 'userPost' }">我的帖子</router-link>
+                        </li>
                         <li><a class="dropdown-item" href="#">用户空间</a></li>
-                        <li><a class="dropdown-item last-item" @click="userStore.logout" href="#">登出</a>
+                        <li><a class="dropdown-item last-item"
+                                @click="userStore.logout" href="#">登出</a>
                         </li>
                     </ul>
                 </li>
                 <ul class="navbar-nav" v-else>
                     <li class="nav-item">
-                        <router-link class="nav-link " :to="{'name':'login'}" role="button">Login</router-link>
+                        <router-link class="nav-link "
+                            :to="{ 'name': 'login' }"
+                            role="button">Login</router-link>
                     </li>
                     <span class="nav-link">/</span>
                     <li class="nav-item ">
-                        <router-link class="nav-link " :to="{'name':'register'}" role="button">Register</router-link>
+                        <router-link class="nav-link "
+                            :to="{ 'name': 'register' }"
+                            role="button">Register</router-link>
                     </li>
                 </ul>
             </div>

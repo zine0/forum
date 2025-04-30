@@ -2,7 +2,7 @@ package com.zineyu.forum.backend.service.impl.post;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zineyu.forum.backend.dto.PageDto;
-import com.zineyu.forum.backend.dto.post.PosPreviewtDto;
+import com.zineyu.forum.backend.dto.post.PostPreviewDto;
 import com.zineyu.forum.backend.mapper.PostMapper;
 import com.zineyu.forum.backend.service.post.ListPostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ public class ListPostServiceImpl implements ListPostService {
 
     @Override
     public PageDto listPost(int page, int size) {
-        Page<PosPreviewtDto> pageParam = new Page<>(page, size);
-        Page<PosPreviewtDto> resultPage = postMapper.selectPostPage(pageParam);
+        Page<PostPreviewDto> pageParam = new Page<>(page, size);
+        Page<PostPreviewDto> resultPage = postMapper.selectPostPage(pageParam);
 
         // 构建返回DTO
         PageDto pageDto = new PageDto();

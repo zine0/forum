@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -60,10 +61,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 允许所有来源（生产环境应限制为具体域名）
+        configuration.setAllowedOrigins(List.of("*")); // 允许所有来源（生产环境应限制为具体域名）
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 允许的HTTP方法
-        configuration.setAllowedHeaders(Arrays.asList("*")); // 允许所有请求头
-        configuration.setExposedHeaders(Arrays.asList("Authorization")); // 允许客户端访问的响应头
+        configuration.setAllowedHeaders(List.of("*")); // 允许所有请求头
+        configuration.setExposedHeaders(List.of("Authorization")); // 允许客户端访问的响应头
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 对所有路径生效
         return source;

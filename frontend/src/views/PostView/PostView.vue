@@ -179,6 +179,7 @@ onMounted(getPost)
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
+    font-size: 11px;
 }
 
 .author-details {

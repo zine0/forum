@@ -1,6 +1,9 @@
-package com.zineyu.forum.backend.dto;
+package com.zineyu.forum.backend.dto.user;
 
-import com.zineyu.forum.backend.dto.post.PostPreviewDto;
+
+
+import com.zineyu.forum.backend.dto.post.UserPostPreviewDto;
+import com.zineyu.forum.backend.pojo.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +13,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageDto {
-    private List<PostPreviewDto> posts;
+public class UserPostPageDto {
+    private List<UserPostPreviewDto> posts;
     private long totalPages;
     private boolean hasNext;
     private boolean hasPrevious;

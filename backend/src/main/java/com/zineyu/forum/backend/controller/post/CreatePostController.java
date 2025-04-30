@@ -18,8 +18,6 @@ public class CreatePostController {
     public Map<String,String> createPost(@RequestBody Map<String,String> request) {
         String title = request.get("title");
         String content = request.get("content");
-        System.out.println(title);
-        System.out.println(content);
         return createPostService.createPost(title,content);
     }
 }

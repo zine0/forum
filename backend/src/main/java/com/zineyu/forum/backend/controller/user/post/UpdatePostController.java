@@ -1,8 +1,7 @@
-package com.zineyu.forum.backend.controller.post;
+package com.zineyu.forum.backend.controller.user.post;
 
-import com.zineyu.forum.backend.dto.post.PosPreviewtDto;
 import com.zineyu.forum.backend.dto.post.PostCreateDto;
-import com.zineyu.forum.backend.service.post.UpdatePostService;
+import com.zineyu.forum.backend.service.user.post.UpdatePostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,7 @@ public class UpdatePostController {
     @Autowired
     UpdatePostService updatePostService;
 
-    @PostMapping("/post/update")
+    @PostMapping("/user/post/update")
     public Map<String,String> updatePost(@RequestBody PostCreateDto postCreateDto) {
         return updatePostService.updatePost(postCreateDto);
     }
