@@ -50,6 +50,10 @@ public class LikePostServiceImpl implements LikePostService {
             result.put("message", "error");
             return result;
         }
+
+        post.setLikes(post.getLikes() + 1);
+        postMapper.updateById(post);
+
         result.put("message", "success");
         return result;
     }

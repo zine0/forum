@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserPostPreviewDto {
-    private int id;
+    private Integer id;
     private String title;
     private String preview;
-    private int authorId;
+    private Integer authorId;
+    private Integer likes;
 }

@@ -8,11 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
     "@kangc/v-md-editor": "^2.3.18",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.5",
     "core-js": "^3.8.3",
     "editor.md": "^1.5.0",
+    "font-awesome": "^4.7.0",
     "highlight.js": "^11.11.1",
     "jquery": "^3.7.1",
     "marked": "^15.0.11",

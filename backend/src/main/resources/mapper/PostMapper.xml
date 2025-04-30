@@ -9,6 +9,7 @@
     p.title,
     p.preview,
     p.create_time as createTime,
+    p.likes,
     u.id as authorId,
     u.username as authorName,
     u.avatar as authorAvatar

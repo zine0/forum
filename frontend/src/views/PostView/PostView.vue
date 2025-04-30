@@ -18,17 +18,6 @@
                     <span class="author-name">{{ post.authorName }}</span>
                 </div>
             </div>
-            <div class="post-stats">
-                <span class="stat-item">
-                    <i class="icon-like"></i> {{ post.likes }}
-                </span>
-                <span class="stat-item">
-                    <i class="icon-comment"></i> {{ post.comments }}
-                </span>
-                <span class="stat-item">
-                    <i class="icon-view"></i> {{ post.views }}
-                </span>
-            </div>
         </div>
 
         <!-- 文章内容 -->
@@ -38,7 +27,7 @@
         <!-- 互动区域 -->
         <div class="interaction-area">
             <button class="interaction-button" @click="likePost">
-                <i class="icon-like"></i> 点赞 ({{ post.likes }})
+                <i :class="{ 'fa': true, 'fa-regular':true, 'fa-heart':true, 'liked':liked}"></i> 点赞 ({{ post.likes }})
             </button>
             <button class="interaction-button"
                 @click="showComments = !showComments">
@@ -67,14 +56,16 @@ import $ from "jquery";
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '@/store/user';
 import { marked } from 'marked';
-import hljs from 'highlight.js'
-
+import hljs from 'highlight.js';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
-const showComments = ref(false)
+const showComments = ref(false);
 
-const post = ref({})
+const post = ref({});
+const liked = ref(false);
 
 
 const goBack = () => {
@@ -82,7 +73,27 @@ const goBack = () => {
 }
 
 const likePost = () => {
-    // 点赞逻辑
+    $.ajax({
+        url: `http://localhost:3000/post/like?postId=${post.value.id}`,
+        type: "get",
+        headers: {
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        success(data) {
+            if (data.message === 'success')
+            {
+                toast.success("点赞成功");
+                liked.value = true;
+                post.value.likes += 1;
+            }
+            else {
+                toast.error("点赞失败");
+            }
+        }, error() {
+            
+                toast.error("点赞失败");
+        }
+    })
 }
 
 const getPost = () => {
@@ -100,6 +111,18 @@ const getPost = () => {
                     parsedContent: marked.parse(data.content || '')
                 };
             }
+        }
+    })
+
+    $.ajax({
+        url: `http://localhost:3000/user/post/like?postId=${route.params.id}`,
+        type: 'get',
+        headers: {
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        success(data)
+        {
+            liked.value = data.isLike;
         }
     })
 }
@@ -128,6 +151,11 @@ onMounted(getPost)
 </script>
 
 <style scoped>
+
+.liked {
+    color:red;
+}
+
 .post-detail {
     width: 60vw;
     padding: 2rem;

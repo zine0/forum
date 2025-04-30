@@ -10,6 +10,7 @@ import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 import Prism from 'prismjs';
 import 'highlight.js/styles/idea.css';
+import 'font-awesome/css/font-awesome.min.css'
 
 const pinia = createPinia()
 VueMarkdownEditor.use(vuepressTheme, {

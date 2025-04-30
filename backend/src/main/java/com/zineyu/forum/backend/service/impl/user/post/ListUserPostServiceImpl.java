@@ -44,7 +44,8 @@ public class ListUserPostServiceImpl implements ListUserPostService {
                         post.getId(),
                         post.getTitle(),
                         post.getPreview(),
-                        post.getAuthorId()
+                        post.getAuthorId(),
+                        post.getLikes()
                 ))
                 .collect(Collectors.toList());
 

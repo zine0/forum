@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetPostDto {
-    private int id;
+    private Integer id;
     private String title;
     private String content;
-    private int authorId;
+    private Integer authorId;
     private String authorName;
     private String authorAvatar;
+    private Integer likes;
 }

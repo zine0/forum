@@ -16,16 +16,23 @@ import java.time.LocalDateTime;
 public class Post {
     @TableId(type = IdType.AUTO)
     private Integer id;
+
     private String title;
     private String content;
+
     @TableField(exist = false)
     private User author;
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
     @TableField(value = "author_id")
     private Integer authorId;
 
     private String preview;
+
+    private Integer likes;
 }
