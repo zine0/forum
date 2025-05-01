@@ -304,17 +304,4 @@ onMounted(() => {
     gap: 0.3rem;
 }
 
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.tag {
-    padding: 0.2rem 0.6rem;
-    background: #f0f0f0;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    color: #555;
-}
 </style>

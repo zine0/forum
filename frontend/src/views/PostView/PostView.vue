@@ -27,7 +27,9 @@
         <!-- 互动区域 -->
         <div class="interaction-area">
             <button class="interaction-button" @click="likePost">
-                <i :class="{ 'fa': true, 'fa-regular':true, 'fa-heart':true, 'liked':liked}"></i> 点赞 ({{ post.likes }})
+                <i
+                    :class="{ 'fa': true, 'fa-regular': true, 'fa-heart': true, 'liked': liked }"></i>
+                点赞 ({{ post.likes }})
             </button>
             <button class="interaction-button"
                 @click="showComments = !showComments">
@@ -38,15 +40,34 @@
         <!-- 评论区域 -->
         <div class="comments-section" v-if="showComments">
             <h3>评论</h3>
-            <div class="comment-list">
-                <!-- 评论列表内容 -->
-            </div>
             <div class="comment-form">
-                <textarea placeholder="写下你的评论..."></textarea>
-                <button class="submit-button">提交</button>
+                <textarea placeholder="写下你的评论..."
+                    v-model.lazy="comment"></textarea>
+                <button class="submit-button"
+                    @click.stop="submitComment">提交</button>
             </div>
         </div>
     </div>
+    <div class="comment-list">
+        <commentC v-for="comment in comments" :key="comment"
+            :avatar="comment.authorAvatar" :username="comment.authorName"
+            :content="comment.content">
+        </commentC>
+    </div>
+
+
+    <div class="pagination">
+        <button :disabled="!pagination.hasPrevious"
+            @click="changePage(currentPage - 1)">
+            上一页
+        </button>
+        <span>第 {{ currentPage }} 页 / 共 {{ pagination.totalPages }} 页</span>
+        <button :disabled="!pagination.hasNext"
+            @click="changePage(currentPage + 1)">
+            下一页
+        </button>
+    </div>
+
 </template>
 
 <script setup>
@@ -59,6 +80,8 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import CommentC from '@/components/CommentC.vue';
+
 const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
@@ -66,7 +89,70 @@ const showComments = ref(false);
 
 const post = ref({});
 const liked = ref(false);
+const comments = ref([]);
 
+const currentPage = ref(1);
+const pagination = ref({
+    totalPages: 0,
+    hasNext: false,
+    hasPrevious: false
+});
+const comment = ref("");
+
+const changePage = (newPage) => {
+  if (newPage < 1 || newPage > pagination.value.totalPages) return;
+  getComment(newPage);
+};
+
+const getComment = (page = 1) => {
+
+    $.ajax({
+        "url": `http://localhost:3000/comment?page=${page}&size=10&postId=${route.params.id}`,
+        "method": "GET",
+        "headers": {
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        success(data) {
+            currentPage.value = page;
+            comments.value = data.records || [];
+            pagination.value = {
+                totalPages: data.pages,
+                hasNext: data.pages>currentPage.value,
+                hasPrevious: currentPage.value > 1
+            };
+        }, error() {
+            toast.error("获取评论失败");
+        }
+    })
+}
+
+const submitComment = () => {
+    $.ajax({
+        "url": "http://localhost:3000/comment",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        "data": JSON.stringify({
+            "postId": route.params.id,
+            "content": comment.value
+        }),
+        success(data) {
+            if (data.message === 'success') {
+                comment.value = "";
+                showComments.value = !showComments.value;
+                router.go(0);
+                toast.success("评论成功");
+            } else {
+
+                toast.success("评论失败");
+            }
+        }, error() {
+            toast.success("评论失败");
+        }
+    })
+}
 
 const goBack = () => {
     router.go(-1)
@@ -80,8 +166,7 @@ const likePost = () => {
             "Authorization": `Bearer ${userStore.user.token}`
         },
         success(data) {
-            if (data.message === 'success')
-            {
+            if (data.message === 'success') {
                 toast.success("点赞成功");
                 liked.value = true;
                 post.value.likes += 1;
@@ -90,8 +175,8 @@ const likePost = () => {
                 toast.error("点赞失败");
             }
         }, error() {
-            
-                toast.error("点赞失败");
+
+            toast.error("点赞失败");
         }
     })
 }
@@ -120,8 +205,7 @@ const getPost = () => {
         headers: {
             "Authorization": `Bearer ${userStore.user.token}`
         },
-        success(data)
-        {
+        success(data) {
             liked.value = data.isLike;
         }
     })
@@ -147,13 +231,15 @@ const initMarked = () => {
 
 
 initMarked();
-onMounted(getPost)
+onMounted(() => {
+    getPost();
+    getComment();
+})
 </script>
 
 <style scoped>
-
 .liked {
-    color:red;
+    color: red;
 }
 
 .post-detail {
@@ -164,6 +250,12 @@ onMounted(getPost)
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.post-detail:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
 }
 
 .back-button {
@@ -343,6 +435,33 @@ onMounted(getPost)
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    color: #d9d9d9;
+    cursor: not-allowed;
+}
+
+.pagination button:not(:disabled):hover {
+    border-color: #1890ff;
+    color: #1890ff;
 }
 
 @media (max-width: 768px) {
