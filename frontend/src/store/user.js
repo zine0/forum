@@ -8,7 +8,7 @@ export const useUserStore = defineStore("user", () => {
         username: null,
         avatar: null,
         is_login: false,
-        permission:0,
+        permission: 0,
         token: ""
     })
 
@@ -71,6 +71,7 @@ export const useUserStore = defineStore("user", () => {
                 user.id = ref.id;
                 user.username = ref.username;
                 user.avatar = ref.avatar;
+                user.permission = ref.permission;
             },
         })
     }
@@ -80,6 +81,7 @@ export const useUserStore = defineStore("user", () => {
         user.avatar = null;
         user.is_login = false;
         user.token = null;
+        user.permission = 0;
     }
 
     return { user, login, logout, register };

@@ -1,6 +1,11 @@
 <template>
   <NavBar></NavBar>
-  <FeaturedPost></FeaturedPost>
+
+  <div class = "featured-post-list" v-if="featuredPosts">
+    <FeaturedPost v-for="featuredPost in featuredPosts" :key="featuredPost.id"
+      :post="featuredPost"></FeaturedPost>
+  </div>
+
   <PostPreview v-for="post in posts" :key="post.id" :post="post"
     @post-click="handlePostClick" />
 
@@ -34,6 +39,7 @@ import FeaturedPost from '@/components/FeaturedPost.vue';
 const userStore = useUserStore();
 
 let posts = ref([]);
+let featuredPosts = ref([]);
 const loading = ref(false);
 const error = ref(null);
 const currentPage = ref(1);
@@ -42,6 +48,7 @@ const pagination = ref({
   hasNext: false,
   hasPrevious: false
 });
+
 const fetchPosts = (page = 1) => {
   loading.value = true;
   error.value = null;
@@ -71,6 +78,19 @@ const fetchPosts = (page = 1) => {
   });
 };
 
+const fetchFeaturedPosts = () => {
+
+  $.ajax({
+    url: `http://localhost:3000/post/featured`,
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${userStore.user.token}`
+    },
+    success: (data) => {
+      featuredPosts.value = data || [];
+    },
+  });
+};
 // 切换页码
 const changePage = (newPage) => {
   if (newPage < 1 || newPage > pagination.value.totalPages) return;
@@ -81,10 +101,17 @@ const changePage = (newPage) => {
 const handlePostClick = (postId) => {
   router.push(`/post/${postId}`);
 };
-onMounted(() => fetchPosts(1));
+
+onMounted(() => { fetchPosts(1); fetchFeaturedPosts(); });
 </script>
 
 <style scoped>
+
+.featured-post-list {
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
 .create-post-btn {
   position: fixed;
   bottom: 20vh;

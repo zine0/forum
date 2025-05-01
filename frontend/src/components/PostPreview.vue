@@ -4,6 +4,10 @@
         <div class="head">
             <h2 class="post-title">{{ post.title }}</h2>
             <div class="actions" v-if="showAction">
+                <button v-if="showFeatureBtn" class="edit-btn btn btn-info"
+                    @click.stop="handleFeature">
+                    置顶
+                </button>
                 <button class="edit-btn btn btn-primary"
                     @click.stop="handleEdit">
                     修改
@@ -29,7 +33,7 @@
         <!-- 互动数据 -->
         <div class="post-stats">
             <span class="stat-item">
-                <i class="fa fa-solid fa-heart"></i> {{post.likes }}
+                <i class="fa fa-solid fa-heart"></i> {{ post.likes }}
             </span>
             <span class="stat-item">
                 <i class="icon-comment"></i> {{ post.comments }}
@@ -76,6 +80,7 @@ initMarked();
 const emit = defineEmits(['post-click', 'edit', 'delete']);
 const userStore = useUserStore();
 const showAction = ref(false);
+const showFeatureBtn = ref(false);
 const router = useRouter();
 
 const props = defineProps({
@@ -88,15 +93,15 @@ const props = defineProps({
 // 解析预览内容
 const parsedPreview = ref(marked.parse(props.post.preview || ''));
 
-function navigateToPost() {
+const navigateToPost = () => {
     emit('post-click', props.post.id);
 }
 
-function handleEdit() {
+const handleEdit = () => {
     router.push({ name: 'updatePost', query: { id: props.post.id } });
 }
 
-function handleDelete() {
+const handleDelete = () => {
     $.ajax({
         url: `http://localhost:3000/user/post?id=${props.post.id}`,
         type: "delete",
@@ -115,8 +120,28 @@ function handleDelete() {
     })
 }
 
+const handleFeature = () => {
+    $.ajax({
+        url: `http://localhost:3000/post/feature?postId=${props.post.id}`,
+        type: "get",
+        headers: {
+            "Authorization": `Bearer ${userStore.user.token}`
+        },
+        success(data) {
+            if (data.message === "success") {
+                toast.success("置顶成功");
+            } else {
+                toast.error("置顶失败");
+            }
+        }, error() {
+            toast.error("置顶失败");
+        }
+    })
+}
+
 onMounted(() => {
-    showAction.value = (props.post.authorId == userStore.user.id);
+    showAction.value = (props.post.authorId == userStore.user.id) || (userStore.user.permission == 1);
+    showFeatureBtn.value = (userStore.user.permission == 1);
 });
 </script>
 
@@ -125,9 +150,11 @@ onMounted(() => {
     padding: 0;
     margin: 0;
 }
+
 .fa-heart {
     color: red;
 }
+
 .head {
     position: relative;
 }

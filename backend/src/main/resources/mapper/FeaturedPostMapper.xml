@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zineyu.forum.backend.mapper.FeaturedPostMapper">
+
+    <select id="selectFeaturedPost" resultType="com.zineyu.forum.backend.dto.post.GetFeaturedPostDto">
+        SELECT
+        p.id          as id,
+        p.title       as title,
+        p.likes       as likes,
+        u.username    as authorName,
+        u.avatar      as authorAvatar
+        FROM featured_post fp
+        INNER JOIN post p ON fp.post_id = p.id
+        INNER JOIN user u ON p.author_id = u.id
+    </select>
+
+</mapper>

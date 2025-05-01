@@ -41,6 +41,7 @@
             </div>
         </div>
     </nav>
+    <div class="placehold"></div>
 </template>
 
 <script setup>
@@ -55,12 +56,19 @@ const userStore = useUserStore();
 .container {
     width: 80vw;
 }
-
 .navbar {
+    top: 0px;
+    position: fixed;
     background-color: #2c3e50;
+    width: 100%;
     /* 深蓝灰色 */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 0.8rem 1rem;
+    z-index: 1000;
+}
+
+.placehold {
+    height: 65px;
 }
 
 .navbar-brand {
