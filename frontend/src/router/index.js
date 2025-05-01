@@ -7,6 +7,7 @@ import NotFound from '@/views/NotFound.vue';
 import CreateView from '@/views/PostView/CreatePostView.vue';
 import UserPostView from '@/views/UserView/UserPostView.vue';
 import UpdatePostView from '@/views/PostView/UpdatePostView.vue';
+import SearchPostView from '@/views/PostView/SearchPostView.vue';
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     component:UpdatePostView
   },
   {
+    path: "/post/search",
+    name: "searchPost",
+    component:SearchPostView
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound
@@ -52,8 +58,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes
+  history: createWebHistory(),  
+  routes            
 })
 
 export default router

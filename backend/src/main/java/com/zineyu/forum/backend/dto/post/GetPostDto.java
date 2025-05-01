@@ -15,4 +15,5 @@ public class GetPostDto {
     private String authorName;
     private String authorAvatar;
     private Integer likes;
+    private Integer comments;
 }

@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/account/login", "/user/account/register").permitAll() // 放行登录和注册
                         .requestMatchers(HttpMethod.OPTIONS).permitAll() // 放行预检请求
+                        .requestMatchers(HttpMethod.GET,"/post/page").permitAll()
                         .anyRequest().authenticated() // 其他请求需认证
                 )
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class) // 添加JWT过滤器

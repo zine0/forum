@@ -37,6 +37,7 @@ public class GetPostServiceImpl implements GetPostService {
         dto.setAuthorAvatar(Author.getAvatar());
         dto.setAuthorName(Author.getUsername());
         dto.setLikes(post.getLikes());
+        dto.setComments(post.getComments());
         return dto;
     }
 }

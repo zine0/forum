@@ -27,16 +27,18 @@
 </template>
 
 <script setup>
-import NavBar from '../components/NavBar.vue';
-import PostPreview from '../components/PostPreview.vue'
-import CreatePost from '../components/CreatePost.vue';
+import NavBar from '@/components/NavBar.vue';
+import PostPreview from '@/components/PostPreview.vue'
+import CreatePost from '@/components/CreatePost.vue';
 import { ref, onMounted } from 'vue';
 import $ from "jquery"
 import { useUserStore } from "@/store/user";
 import router from '@/router';
+import { useRoute } from 'vue-router';
 import FeaturedPost from '@/components/FeaturedPost.vue';
 
 const userStore = useUserStore();
+const route = useRoute();
 
 let posts = ref([]);
 let featuredPosts = ref([]);
@@ -52,18 +54,22 @@ const pagination = ref({
 const fetchPosts = (page = 1) => {
     loading.value = true;
     error.value = null;
-
+    console.log(route.query.query);
+    if (route.query.query === null || route.query.query === "" || route.query.query===undefined) {
+        router.push({ name: "Home" });
+        return;
+    }
     let settings = {
-        url: `http://localhost:3000/post/page?page=${page}&size=10`,
+        url: `http://localhost:3000/post/search?page=${page}&size=${route.query.size||10}&query=${route.query.query}`,
         method: "GET",
         success: (data) => {
-            posts.value = data.posts || [];
-            pagination.value = {
-                totalPages: data.totalPages,
-                hasNext: data.hasNext,
-                hasPrevious: data.hasPrevious
-            };
             currentPage.value = page;
+            posts.value = data.records || [];
+            pagination.value = {
+                totalPages: data.pages,
+                hasNext: currentPage.value<data.pages,
+                hasPrevious: currentPage.value > 1
+            };
         },
         error: (xhr) => {
             console.error("获取帖子列表失败:", xhr);
@@ -112,7 +118,10 @@ const handlePostClick = (postId) => {
     router.push(`/post/${postId}`);
 };
 
-onMounted(() => { fetchPosts(1); fetchFeaturedPosts(); });
+onMounted(() => {
+    fetchPosts(1);
+    fetchFeaturedPosts();
+});
 </script>
 
 <style scoped>

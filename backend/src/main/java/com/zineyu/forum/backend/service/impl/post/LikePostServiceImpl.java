@@ -46,7 +46,6 @@ public class LikePostServiceImpl implements LikePostService {
             postLikeMapper.insert(postLike);
         }
         catch (Exception e) {
-            e.printStackTrace();
             result.put("message", "error");
             return result;
         }

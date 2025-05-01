@@ -35,4 +35,6 @@ public class Post {
     private String preview;
 
     private Integer likes;
+
+    private Integer comments;
 }

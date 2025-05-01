@@ -15,5 +15,6 @@ public class PostPreviewDto {
     private String authorName;
     private String authorAvatar;
     private Integer likes;
+    private Integer comments;
 
 }

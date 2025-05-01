@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zineyu.forum.backend.mapper.PostMapper">
 
-<select id="selectPostPage" resultType="com.zineyu.forum.backend.dto.post.PostPreviewDto">
-    SELECT
-    p.id,
-    p.title,
-    p.preview,
-    p.create_time as createTime,
-    p.likes,
-    u.id as authorId,
-    u.username as authorName,
-    u.avatar as authorAvatar
-    FROM post p
-    LEFT JOIN user u ON p.author_id = u.id
-    ORDER BY p.create_time DESC
-</select>
+    <select id="selectPostPage" resultType="com.zineyu.forum.backend.dto.post.PostPreviewDto">
+        SELECT p.id,
+               p.title,
+               p.preview,
+               p.create_time as createTime,
+               p.likes,
+               p.comments,
+               u.id          as authorId,
+               u.username    as authorName,
+               u.avatar      as authorAvatar
+        FROM post p
+                 LEFT JOIN user u ON p.author_id = u.id
+        ORDER BY p.create_time DESC
+    </select>
+
+    <select id="searchPostPage" resultType="com.zineyu.forum.backend.dto.post.PostPreviewDto">
+        SELECT p.id,
+        p.title,
+        p.preview,
+        p.create_time as createTime,
+        p.likes,
+        p.comments,
+        u.id          as authorId,
+        u.username    as authorName,
+        u.avatar      as authorAvatar
+        FROM post p
+        LEFT JOIN user u ON p.author_id = u.id
+        WHERE 1=1
+        <if test="query != null and query != ''">
+            AND (p.title LIKE CONCAT('%', #{query}, '%')
+            OR p.content LIKE CONCAT('%', #{query}, '%'))
+        </if>
+        ORDER BY p.create_time DESC
+    </select>
 
 </mapper>

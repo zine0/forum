@@ -33,7 +33,7 @@
             </button>
             <button class="interaction-button"
                 @click="showComments = !showComments">
-                <i class="icon-comment"></i> 评论 ({{ post.comments }})
+                <i class="fa fa-solid fa-comments"></i> 评论 ({{ post.comments }})
             </button>
         </div>
 
@@ -100,30 +100,36 @@ const pagination = ref({
 const comment = ref("");
 
 const changePage = (newPage) => {
-  if (newPage < 1 || newPage > pagination.value.totalPages) return;
-  getComment(newPage);
+    if (newPage < 1 || newPage > pagination.value.totalPages) return;
+    getComment(newPage);
 };
 
 const getComment = (page = 1) => {
 
-    $.ajax({
+    let settings = {
         "url": `http://localhost:3000/comment?page=${page}&size=10&postId=${route.params.id}`,
         "method": "GET",
-        "headers": {
-            "Authorization": `Bearer ${userStore.user.token}`
-        },
         success(data) {
             currentPage.value = page;
             comments.value = data.records || [];
             pagination.value = {
                 totalPages: data.pages,
-                hasNext: data.pages>currentPage.value,
+                hasNext: data.pages > currentPage.value,
                 hasPrevious: currentPage.value > 1
             };
         }, error() {
             toast.error("获取评论失败");
         }
-    })
+    };
+
+    if (userStore.user.token != null) {
+
+        settings["headers"] = {
+            "Authorization": `Bearer ${userStore.user.token}`
+        }
+    }
+
+    $.ajax(settings);
 }
 
 const submitComment = () => {

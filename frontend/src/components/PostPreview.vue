@@ -4,7 +4,7 @@
         <div class="head">
             <h2 class="post-title">{{ post.title }}</h2>
             <div class="actions" v-if="showAction">
-                <button v-if="showFeatureBtn" class="edit-btn btn btn-info"
+                <button v-if="showFeatureBtn" class="feature-btn btn btn-success"
                     @click.stop="handleFeature">
                     置顶
                 </button>
@@ -36,10 +36,7 @@
                 <i class="fa fa-solid fa-heart"></i> {{ post.likes }}
             </span>
             <span class="stat-item">
-                <i class="icon-comment"></i> {{ post.comments }}
-            </span>
-            <span class="stat-item">
-                <i class="icon-view"></i> {{ post.views }}
+                <i class="fa fa-solid fa-comments"></i> {{ post.comments }}
             </span>
         </div>
     </div>
@@ -151,10 +148,6 @@ onMounted(() => {
     margin: 0;
 }
 
-.fa-heart {
-    color: red;
-}
-
 .head {
     position: relative;
 }
@@ -170,6 +163,12 @@ onMounted(() => {
 }
 
 .edit-btn {
+    font-size: 12px;
+    margin: 0 3px;
+    padding: 5px 10px;
+}
+
+.feature-btn {
     font-size: 12px;
     margin: 0 3px;
     padding: 5px 10px;
@@ -303,5 +302,4 @@ onMounted(() => {
     align-items: center;
     gap: 0.3rem;
 }
-
 </style>

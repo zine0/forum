@@ -8,4 +8,6 @@ import org.apache.ibatis.annotations.Param;
 
 public interface PostMapper extends BaseMapper<Post> {
     Page<PostPreviewDto> selectPostPage(@Param("page") Page<PostPreviewDto> page);
+
+    Page<PostPreviewDto> searchPostPage(@Param("page") Page<PostPreviewDto> page, @Param("query") String query);
 }

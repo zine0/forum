@@ -45,6 +45,10 @@ public class CreateCommentServiceImpl implements CreateCommentService {
         comment.setAuthorId(user.getId());
 
         commentMapper.insert(comment);
+
+        post.setComments(post.getComments() + 1);
+        postMapper.updateById(post);
+
         result.put("message", "success");
         return result;
     }
